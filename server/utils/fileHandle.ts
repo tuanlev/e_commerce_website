@@ -1,18 +1,31 @@
 import { Request } from 'express';
 import multer, { FileFilterCallback } from 'multer';
+import path from 'path';
 // Cấu hình nơi lưu file
+import fs from 'fs'
+const uploadDir =path.join(__dirname, "../asset/uploads");
+
+// Đảm bảo thư mục tồn tại
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, '../asset/uploads/'); // thư mục lưu file
+    cb(null, uploadDir); // thư mục lưu file
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // tên file lưu
+    const newName = (Date.now() + file.originalname).replace(/ /g, '');
+    cb(null, Date.now() + '_' + newName); // tên file lưu
   }
 });
 const fileFilter = (req:Request, file:Express.Multer.File, cb: FileFilterCallback) => {
-    req.file?.mimetype.startsWith('image/') ? cb(null, true) : cb(new Error('File is not an image'));
+    file?.mimetype.startsWith('image/') ? cb(null, true) : cb(new Error('File is not an image'));
 }
 const upload = multer({ storage, fileFilter });
 export const uploadFile = (fileFieldName:string) => upload.single(fileFieldName); // tên field trong form-data là 'file'
 export const uploadFiles = (fileFieldName:string) => upload.array(fileFieldName); // tên field trong form-data là 'file'
 export const uploadFields = (fileFieldName:string) => upload.fields([{ name: fileFieldName, maxCount: 10 }]); // tên field trong form-data là 'file'
+export interface RequestWithFile extends Request {
+    file: Express.Multer.File;
+    files: Express.Multer.File[];
+}
