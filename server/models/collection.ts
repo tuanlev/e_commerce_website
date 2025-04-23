@@ -15,5 +15,5 @@ const CollectionSchema = new mongoose.Schema({
         default: Date.now,
     },
 });
-const Collection = mongoose.model('Collection', CollectionSchema);
-module.exports = Collection;
+const Collection = mongoose.model('collection', CollectionSchema);
+export default Collection;
