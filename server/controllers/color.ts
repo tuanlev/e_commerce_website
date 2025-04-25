@@ -33,3 +33,26 @@ export const getAllColors = async (req:Request, res:Response, next:NextFunction)
         next(error);
     }
 }
+export const updateColor = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        const colorId = req.params.color_id;
+        const { hexCode } = req.body;
+        const colorResult = await ColorModel.findByIdAndUpdate(colorId, {
+            hexCode,
+        });
+        if (!colorResult) throw new Error("Color not found");
+        successResponse({res, status:200, message:"Color updated", data: colorResult});
+    } catch (error) {
+        next(error);
+    }
+}
+export const deleteColor = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        const colorId = req.params.color_id;
+        const colorResult = await ColorModel.findByIdAndDelete(colorId);
+        if (!colorResult) throw new Error("Color not found");
+        successResponse({res, status:200, message:"Color deleted", data: colorResult});
+    } catch (error) {
+        next(error);
+    }
+}
