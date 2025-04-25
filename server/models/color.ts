@@ -10,4 +10,4 @@ const ColorSchema = new mongoose.Schema({
     },
     });
 const Color = mongoose.model('color', ColorSchema);
-module.exports = Color;
+export default Color;
