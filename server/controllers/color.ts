@@ -5,13 +5,17 @@ import { successResponse } from "../utils/reponseHandle";
 export const createColor = async (req: Request, res: Response,next:NextFunction) => {
     try {
         const {hexCode} = req.body;
+        console.log(req.body)
         const colorIntance = await ColorModel.create({
             hexCode
         });    
     successResponse({res, status:201, message:"Color created successfully", data: colorIntance});
     } 
-    catch (error) {
-        next(error);
+    catch (e:any) {
+        res.status(400).json({ message: e.message,
+            request : req.body,
+        });
+        // next(error);
     }
 }
 export const getColorById = async (req:Request, res:Response, next:NextFunction) => {
@@ -30,7 +34,9 @@ export const getAllColors = async (req:Request, res:Response, next:NextFunction)
         if (colors?.length === 0) throw new Error("No colors found");
         successResponse({res, status:200, message:"Colors found", data: colors});
     } catch (error) {
-        next(error);
+        res.status(400).json({ message: "Color creation failed" });
+
+        // next(error);
     }
 }
 export const updateColor = async (req:Request, res:Response, next:NextFunction) => {

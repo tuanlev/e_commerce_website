@@ -29,7 +29,7 @@ export const updateMaterial = async (req: Request, res: Response, next: NextFunc
         if ( description ) updateData.description = description;
         const updatedMaterial = await MaterialModel.findByIdAndUpdate(id, updateData , { new: true });
         if (!updatedMaterial) {
-            return res.status(404).json({ message: "Material not found" });
+            throw new Error("Material not found");
         }
         successResponse({ res, status: 200, data: updatedMaterial, message: "Update material successfully" });
     } catch (error) {
