@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose,{ Schema } from "mongoose";
 
 const accountSchema = new Schema({ 
     userName: {
@@ -15,27 +15,6 @@ const accountSchema = new Schema({
     password: {
         type: String,
         required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        validate: {
-            validator: function (v: string) {
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-            },
-            message: (props: { value: string }) => `${props.value} is not a valid email!`,
-        },
-    },  
-    phoneNumber: {
-        type: String,
-        required: true,
-        validate: {
-            validator: function (v: string) {
-                return /^\d{10}$/.test(v);
-            },
-            message: (props: { value: string }) => `${props.value} is not a valid phone number!`,
-        },
     },
     role: {
         type: String,

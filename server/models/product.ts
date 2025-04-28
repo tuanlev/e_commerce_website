@@ -43,9 +43,14 @@ const productSchema = new Schema({
 
     },
     CollectionId: {
-        type: Schema.Types.ObjectId,
+        type: [Schema.Types.ObjectId],
         ref: 'collection',
-        required: true,
+        default: [],
+    },
+    productLineId: {
+        type: Schema.Types.ObjectId,
+        ref: 'productline',
+        
     },
     catagoryId: {
         type: Schema.Types.ObjectId,

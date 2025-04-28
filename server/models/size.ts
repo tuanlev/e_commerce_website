@@ -1,16 +1,6 @@
-import { Schema } from "mongoose";
-const sizeGroupSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-    },
-    img: {
-        type: [String],
-    }})
-const SizeGroup = mongoose.model('sizegroup', sizeGroupSchema);
+import mongoose,{ Schema } from "mongoose";
+import Catagory from "./catagory";
+
 const sizeSchema =  new Schema({
     name : {
         type: String,
@@ -19,15 +9,12 @@ const sizeSchema =  new Schema({
     description : {
         type: String,
     },
-    img : {
-        type: [String]
-    },
-    sizeGroupId: {
+    catagoryId: {
         type: Schema.Types.ObjectId,
-        ref: 'sizegroup',
+        ref: 'catagory',
         required: true,}
     })
 const Size = mongoose.model('size', sizeSchema);
-module.exports = {Size, SizeGroup};
+export default Size
         /// <reference path="" />
         
